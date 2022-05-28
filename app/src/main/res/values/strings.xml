@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">MachineRound</string>
     <string name="download">Please wait..</string>
+    <string name="toast_no_network_txt">Network not avail.</string>
 </resources>

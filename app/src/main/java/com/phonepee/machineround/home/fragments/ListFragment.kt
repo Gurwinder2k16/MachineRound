@@ -46,7 +46,7 @@ class ListFragment : BaseFragment(),MovieListCallBack {
             if (CommonUtils.isInternetConnected(it)) {
                 mPlayerViewModel.fetchMovieList()
             } else {
-                Toast.makeText(it, "Network not avail.", Toast.LENGTH_LONG).show()
+                Toast.makeText(it, getString(R.string.toast_no_network_txt), Toast.LENGTH_LONG).show()
             }
         }
         mPlayerViewModel.viewModelScope.launch {
@@ -65,10 +65,8 @@ class ListFragment : BaseFragment(),MovieListCallBack {
         if(!::mMovieListAdapter.isInitialized){
             mMovieListAdapter = MovieListAdapter(mDownloadedList, this)
             rvMoviesList.layoutManager=LinearLayoutManager(context)
+            rvMoviesList.adapter = mMovieListAdapter
         }
-//        mMovieListAdapter.movieList.clear()
-//        mMovieListAdapter.movieList.addAll(mDownloadedList)
-        rvMoviesList.adapter = mMovieListAdapter
         mMovieListAdapter.notifyDataSetChanged()
     }
 
