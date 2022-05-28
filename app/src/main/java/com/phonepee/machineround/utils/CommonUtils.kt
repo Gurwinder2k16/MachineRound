@@ -1,7 +1,7 @@
 package com.phonepee.machineround.utils
 
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
+import android.content.Context
+import android.net.ConnectivityManager
 import java.io.IOException
 import java.io.InputStream
 
@@ -20,5 +20,20 @@ object CommonUtils {
         } catch (e: IOException) {
             null
         }
+    }
+
+    fun isInternetConnected(context: Context): Boolean {
+        val cm = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val activeNetwork = cm.activeNetworkInfo
+        if (activeNetwork != null) {
+            if (activeNetwork.type == ConnectivityManager.TYPE_WIFI) {
+                return true
+            } else if (activeNetwork.type == ConnectivityManager.TYPE_MOBILE) {
+                return true
+            }
+        } else {
+            return false
+        }
+        return false
     }
 }

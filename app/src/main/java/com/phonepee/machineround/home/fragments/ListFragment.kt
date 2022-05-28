@@ -2,6 +2,7 @@ package com.phonepee.machineround.home.fragments
 
 import android.annotation.SuppressLint
 import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -12,6 +13,7 @@ import com.phonepee.machineround.home.adapters.MovieListAdapter
 import com.phonepee.machineround.home.adapters.MovieListCallBack
 import com.phonepee.machineround.home.models.response.ResultsItem
 import com.phonepee.machineround.home.viewmodel.MainViewModel
+import com.phonepee.machineround.utils.CommonUtils
 import kotlinx.android.synthetic.main.list_fragment.*
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -40,8 +42,14 @@ class ListFragment : BaseFragment(),MovieListCallBack {
     }
 
     private fun setDetailView() {
+        context?.let {
+            if (CommonUtils.isInternetConnected(it)) {
+                mPlayerViewModel.fetchMovieList()
+            } else {
+                Toast.makeText(it, "Network not avail.", Toast.LENGTH_LONG).show()
+            }
+        }
         mPlayerViewModel.viewModelScope.launch {
-            mPlayerViewModel.fetchMovieList()
             mPlayerViewModel.provideMovieList().collect {
                 if (it != null) {
                     mDownloadedList.clear()
